@@ -1,0 +1,109 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+// Class for each product in the marketplace
+class Product {
+private:
+    string name;
+    string category;
+    double price;
+
+public:
+    Product(string n, string c, double p) : name(n), category(c), price(p) {}
+
+    void displayProduct() {
+        cout << "Name: " << name << endl;
+        cout << "Category: " << category << endl;
+        cout << "Price: $" << price << endl;
+        cout << "------------------------" << endl;
+    }
+
+    string getName() { return name; }
+    string getCategory() { return category; }
+    double getPrice() { return price; }
+};
+
+// Class for the marketplace
+class Marketplace {
+private:
+    vector<Product> products;
+
+public:
+    void addProduct(Product p) {
+        products.push_back(p);
+    }
+
+    void displayAllProducts() {
+        for (Product p : products) {
+            p.displayProduct();
+        }
+    }
+
+    void displayProductsByCategory(string category) {
+        for (Product p : products) {
+            if (p.getCategory() == category) {
+                p.displayProduct();
+            }
+        }
+    }
+
+    void displayProductsBelowPrice(double maxPrice) {
+        for (Product p : products) {
+            if (p.getPrice() <= maxPrice) {
+                p.displayProduct();
+            }
+        }
+    }
+};
+
+int main() {
+    Marketplace marketplace;
+
+    // Adding some sample products
+    Product p1("Handmade Rug", "Handloom", 75.99);
+    Product p2("Wooden Carved Statue", "Handicraft", 129.99);
+    Product p3("Silk Scarf", "Handloom", 49.99);
+
+    // Adding products to the marketplace
+    marketplace.addProduct(p1);
+    marketplace.addProduct(p2);
+    marketplace.addProduct(p3);
+
+    int choice;
+    cout << "Welcome to the Handloom & Handicraft Marketplace!" << endl;
+    do {
+        cout << "\n1. Display All Products\n2. Display by Category\n3. Display Below Price\n4. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                cout << "---- All Products ----" << endl;
+                marketplace.displayAllProducts();
+                break;
+            case 2:
+                string category;
+                cout << "Enter category (Handloom/Handicraft): ";
+                cin >> category;
+                cout << "---- Products in " << category << " ----" << endl;
+                marketplace.displayProductsByCategory(category);
+                break;
+            case 3:
+                double maxPrice;
+                cout << "Enter maximum price: $";
+                cin >> maxPrice;
+                cout << "---- Products Below $" << maxPrice << " ----" << endl;
+                marketplace.displayProductsBelowPrice(maxPrice);
+                break;
+            case 4:
+                cout << "Exiting the marketplace. Goodbye!\n";
+                break;
+            default:
+                cout << "Invalid choice. Please try again.\n";
+        }
+    } while (choice != 4);
+
+    return 0;
+}
